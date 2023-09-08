@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const studentRoute = require('./src/server/routes/students')
+const studentRoute = require('./server/routes/students')
 app.use(studentRoute);
 
 app.use((req, res, next) => {

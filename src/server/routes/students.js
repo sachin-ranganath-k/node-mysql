@@ -33,13 +33,13 @@ router.get("/student/:rollNo", (req, res) => {
     if (error) {
       res.status(400).json({
         status: 400,
-        message: "Error fetching user data",
+        message: "Error fetching student data",
       });
     } else {
       res.status(200).json({
         status: 200,
         data: result,
-        message: `Fetched data with user id ${req.params.rollNo}`,
+        message: `Fetched data with student id ${req.params.rollNo}`,
       });
     }
   });
@@ -54,7 +54,7 @@ router.put("/update/:rollNo/:name", (req, res) => {
       console.log(error);
       res.status(400).json({
         status: 400,
-        message: "Error updating user data",
+        message: "Error updating student data",
         result: result
       });
     } else {
@@ -62,7 +62,29 @@ router.put("/update/:rollNo/:name", (req, res) => {
       res.status(200).json({
         status: 200,
         // responseData: req.body,
-        message: `Updated data with user id ${rollNo}`,
+        message: `Updated data with stident id ${rollNo}`,
+      });
+    }
+  });
+});
+
+router.delete("/delete/:rollNo", (req, res) => {
+  const rollNo = req.params.rollNo;
+  const sql = `delete from students where rollNo='${rollNo}'`;
+  con.query(sql, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({
+        status: 400,
+        message: "Error deleting student data",
+        result: result
+      });
+    } else {
+      // console.log(req.body)
+      res.status(200).json({
+        status: 200,
+        // responseData: req.body,
+        message: `Deleted data with student id ${rollNo}`,
       });
     }
   });
