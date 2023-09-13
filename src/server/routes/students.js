@@ -1,12 +1,7 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const con = require("../db/db");
 
-const app = express();
 const router = express.Router();
-
-app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/students/all", (req, res) => {
   const sql = "select *from students";
@@ -41,6 +36,44 @@ router.get("/student/:rollNo", (req, res) => {
         data: result,
         message: `Fetched data with student id ${req.params.rollNo}`,
       });
+    }
+  });
+});
+
+router.post("/student/add", (req, res) => {
+  let data = { rollNo: req.body.studRollNo, name: req.body.studName };
+  const sql = "insert into students set ? ";
+  const sql2 = `select * from students where name = '${req.body.studName}'`;
+  con.query(sql2, data, (err, result) => {
+    if (err) {
+      res.status(400).json({
+        status: 400,
+        message: "Error occured..! Please verify body sent correctly",
+        result: result,
+      });
+      console.log(err);
+    } else {
+      if (result.length > 0) {
+        res.status(501).json({
+          status: 501,
+          message: "Student name already exists..!",
+        });
+      } else {
+        con.query(sql, data, (err, result) => {
+          if (err) {
+            res.status(400).json({
+              status: 400,
+              message: "Error occured..!",
+              result: result,
+            });
+          } else {
+            res.status(200).json({
+              status: 200,
+              message: "Added Successfully..!",
+            });
+          }
+        });
+      }
     }
   });
 });

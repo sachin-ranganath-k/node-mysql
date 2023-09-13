@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const studentRoute = require('./server/routes/students')
+app.use(express.json());
 app.use(studentRoute);
 
 app.use((req, res, next) => {
