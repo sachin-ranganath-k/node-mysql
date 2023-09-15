@@ -51,7 +51,6 @@ router.post("/student/add", (req, res) => {
         message: "Error occured..! Please verify body sent correctly",
         result: result,
       });
-      console.log(err);
     } else {
       if (result.length > 0) {
         res.status(501).json({
@@ -91,19 +90,17 @@ router.put("/update/:rollNo/:name", (req, res) => {
         result: result
       });
     } else {
-      // console.log(req.body)
       res.status(200).json({
         status: 200,
-        // responseData: req.body,
-        message: `Updated data with stident id ${rollNo}`,
+        message: `Updated data with student id ${rollNo}`,
       });
     }
   });
 });
 
-router.delete("/delete/:rollNo", (req, res) => {
-  const rollNo = req.params.rollNo;
-  const sql = `delete from students where rollNo='${rollNo}'`;
+router.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `delete from students where id='${id}'`;
   con.query(sql, (error, result) => {
     if (error) {
       console.log(error);
@@ -113,11 +110,10 @@ router.delete("/delete/:rollNo", (req, res) => {
         result: result
       });
     } else {
-      // console.log(req.body)
       res.status(200).json({
         status: 200,
         // responseData: req.body,
-        message: `Deleted data with student id ${rollNo}`,
+        message: `Deleted data with student id ${id}`,
       });
     }
   });
